@@ -12,7 +12,7 @@ from PIL import Image
 image_paths = glob.glob(os.path.join('data', '*.jpg'))
 image_paths.sort(key=lambda x: int(os.path.splitext(os.path.basename(x))[0]))
 
-for _ in range(5):
+for i in range(5):
     cv_time = time.time()
     for image_path in image_paths:
         image = cv2.cvtColor(cv2.imread(image_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
@@ -33,6 +33,7 @@ for _ in range(5):
         image = torchvision.io.read_image(image_path, torchvision.io.ImageReadMode.RGB)
     torchvision_time = time.time() - torchvision_time
 
+    print(f'{i + 1}iter')
     print(f'cv_time: \t\t{cv_time:.4f}')
     print(f'jpeg4py_time: \t\t{jpeg4py_time:.4f}')
     print(f'pil_time: \t\t{pil_time:.4f}')
