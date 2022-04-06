@@ -33,8 +33,8 @@ for _ in range(5):
         image = torchvision.io.read_image(image_path, torchvision.io.ImageReadMode.RGB)
     torchvision_time = time.time() - torchvision_time
 
-    print(f'cv_time: \t\t{cv_time:.2f}')
-    print(f'jpeg4py_time: \t\t{jpeg4py_time:.2f}')
-    print(f'pil_time: \t\t{pil_time:.2f}')
-    print(f'torchvision_time: \t{torchvision_time:.2f}')
-    print('-------------------------------')
+    print(f'cv_time: \t\t{cv_time:.4f}')
+    print(f'jpeg4py_time: \t\t{jpeg4py_time:.4f}')
+    print(f'pil_time: \t\t{pil_time:.4f}')
+    print(f'torchvision_time: \t{torchvision_time:.4f}')
+    print('--------------------------------------')
