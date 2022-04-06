@@ -34,6 +34,7 @@ for image_path in image_paths:
     image = torchvision.io.read_image(image_path, torchvision.io.ImageReadMode.RGB)
 torchvision_time = time.time() - torchvision_time
 
-print(cv_time)
-print(pil_time)
-print(torchvision_time)
+print(f'cv_time: \t\t{cv_time:.2f}')
+print(f'jpeg4py_time: \t{jpeg4py_time:.2f}')
+print(f'pil_time: \t{pil_time:.2f}')
+print(f'torchvision_time: \t{torchvision_time:.2f}')
