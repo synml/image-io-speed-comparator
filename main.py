@@ -1,3 +1,4 @@
+import argparse
 import os
 import gc
 import glob
@@ -10,8 +11,9 @@ import torchvision.transforms.functional as TF
 from PIL import Image
 
 
-# Parameters
-repeat = 5
+parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
+parser.add_argument('--repeat', type=int, default=5, help='number of iterations')
+args = parser.parse_args()
 
 
 def calculate_mean_time(time_list: list[float]):
@@ -32,7 +34,7 @@ total_jpeg4py_time = []
 total_pil_time = []
 total_torchvision_time = []
 
-for i in range(repeat):
+for i in range(args.repeat):
     # Calculate OpenCV
     cv_time = time.time()
     for image_path in image_paths:
