@@ -11,7 +11,7 @@ import torchvision.transforms.functional as TF
 from PIL import Image
 
 
-parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
+parser = argparse.ArgumentParser()
 parser.add_argument('--repeat', type=int, default=5, help='number of iterations')
 args = parser.parse_args()
 
