@@ -39,7 +39,7 @@ for i in range(args.repeat):
     # Calculate OpenCV
     cv_time = time.time()
     for image_path in image_paths:
-        image = cv2.cvtColor(cv2.imread(image_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
+        image = torch.as_tensor(cv2.cvtColor(cv2.imread(image_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)).permute((2, 0, 1))
     cv_time = time.time() - cv_time
     del image
     gc.collect()
