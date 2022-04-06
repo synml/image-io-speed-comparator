@@ -38,33 +38,33 @@ for i in range(args.repeat):
     # Calculate OpenCV
     cv_time = time.time()
     for image_path in image_paths:
-        _ = cv2.cvtColor(cv2.imread(image_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
+        image = cv2.cvtColor(cv2.imread(image_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
     cv_time = time.time() - cv_time
-    del _
+    del image
     gc.collect()
 
     # Calculate jpeg4py
     jpeg4py_time = time.time()
     for image_path in image_paths:
-        _ = jpeg4py.JPEG(image_path).decode()
+        image = jpeg4py.JPEG(image_path).decode()
     jpeg4py_time = time.time() - jpeg4py_time
-    del _
+    del image
     gc.collect()
 
     # Calculate PIL
     pil_time = time.time()
     for image_path in image_paths:
-        _ = TF.pil_to_tensor(Image.open(image_path).convert('RGB'))
+        image = TF.pil_to_tensor(Image.open(image_path).convert('RGB'))
     pil_time = time.time() - pil_time
-    del _
+    del image
     gc.collect()
 
     # Calculate Torchvision.io
     torchvision_time = time.time()
     for image_path in image_paths:
-        _ = torchvision.io.read_image(image_path, torchvision.io.ImageReadMode.RGB)
+        image = torchvision.io.read_image(image_path, torchvision.io.ImageReadMode.RGB)
     torchvision_time = time.time() - torchvision_time
-    del _
+    del image
     gc.collect()
 
     # Save times
