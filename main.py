@@ -6,6 +6,7 @@ import time
 
 import cv2
 import jpeg4py
+import torch
 import torchvision
 import torchvision.transforms.functional as TF
 from PIL import Image
@@ -46,7 +47,7 @@ for i in range(args.repeat):
     # Calculate jpeg4py
     jpeg4py_time = time.time()
     for image_path in image_paths:
-        image = jpeg4py.JPEG(image_path).decode()
+        image = torch.as_tensor(jpeg4py.JPEG(image_path).decode()).permute((2, 0, 1))
     jpeg4py_time = time.time() - jpeg4py_time
     del image
     gc.collect()
