@@ -15,11 +15,11 @@ repeat = 5
 
 
 def calculate_mean_time(time_list: list[float]):
-    # 최소, 최댓값 삭제
+    # Remove min and max value
     time_list.remove(min(time_list))
     time_list.remove(max(time_list))
 
-    # 평균 계산
+    # Calculate mean
     mean_time = sum(time_list) / len(time_list)
     return mean_time
 
@@ -85,6 +85,7 @@ mean_jpeg4py_time = calculate_mean_time(total_jpeg4py_time)
 mean_pil_time = calculate_mean_time(total_pil_time)
 mean_torchvision_time = calculate_mean_time(total_torchvision_time)
 
+# Print mean times
 print('"Mean time"')
 print(f'cv_time: \t\t{mean_cv_time:.4f}')
 print(f'jpeg4py_time: \t\t{mean_jpeg4py_time:.4f}')
