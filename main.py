@@ -35,6 +35,6 @@ for image_path in image_paths:
 torchvision_time = time.time() - torchvision_time
 
 print(f'cv_time: \t\t{cv_time:.2f}')
-print(f'jpeg4py_time: \t{jpeg4py_time:.2f}')
-print(f'pil_time: \t{pil_time:.2f}')
+print(f'jpeg4py_time: \t\t{jpeg4py_time:.2f}')
+print(f'pil_time: \t\t{pil_time:.2f}')
 print(f'torchvision_time: \t{torchvision_time:.2f}')
