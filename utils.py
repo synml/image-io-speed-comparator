@@ -4,6 +4,7 @@ import time
 from typing import Callable
 
 import jpeg4py
+import numpy as np
 import torch.utils.data
 
 
@@ -27,18 +28,19 @@ class AugmentationDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index: int):
         image = jpeg4py.JPEG(self.images[index]).decode()
+        image = np.divide(image, 255).astype(np.float32)
 
         if self.augmentation_api == 'albumentations':
             augmentation_time = time.time()
             image = self.transform(image=image)['image']
             augmentation_time = time.time() - augmentation_time
         elif self.augmentation_api == 'kornia':
-            image = torch.as_tensor(image).permute((2, 0, 1)).div(255)
+            image = torch.as_tensor(image).permute((2, 0, 1))
             augmentation_time = time.time()
             image = self.transform(image)
             augmentation_time = time.time() - augmentation_time
         elif self.augmentation_api == 'torchvision':
-            image = torch.as_tensor(image).permute((2, 0, 1)).div(255)
+            image = torch.as_tensor(image).permute((2, 0, 1))
             augmentation_time = time.time()
             image = self.transform(image)
             augmentation_time = time.time() - augmentation_time
