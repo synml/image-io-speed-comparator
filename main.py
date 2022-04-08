@@ -11,6 +11,8 @@ import torchvision
 import torchvision.transforms.functional as TF
 from PIL import Image
 
+import utils
+
 
 """
 로드한 결과는 OpenCV와 jpeg4py가 같고, PIL과 Torchvision.io가 같음.
@@ -23,17 +25,6 @@ from PIL import Image
 parser = argparse.ArgumentParser()
 parser.add_argument('--repeat', type=int, default=5, help='number of iterations')
 args = parser.parse_args()
-
-
-def calculate_mean_time(time_list: list[float]):
-    # Remove min and max value
-    time_list.remove(min(time_list))
-    time_list.remove(max(time_list))
-
-    # Calculate mean
-    mean_time = sum(time_list) / len(time_list)
-    return mean_time
-
 
 image_paths = glob.glob(os.path.join('data', '*.jpg'))
 image_paths.sort(key=lambda x: int(os.path.splitext(os.path.basename(x))[0]))
@@ -91,10 +82,10 @@ for i in range(args.repeat):
     print('--------------------------------------')
 
 # Calculate mean times
-mean_cv_time = calculate_mean_time(total_cv_time)
-mean_jpeg4py_time = calculate_mean_time(total_jpeg4py_time)
-mean_pil_time = calculate_mean_time(total_pil_time)
-mean_torchvision_time = calculate_mean_time(total_torchvision_time)
+mean_cv_time = utils.calculate_mean_time(total_cv_time)
+mean_jpeg4py_time = utils.calculate_mean_time(total_jpeg4py_time)
+mean_pil_time = utils.calculate_mean_time(total_pil_time)
+mean_torchvision_time = utils.calculate_mean_time(total_torchvision_time)
 
 # Print mean times
 print('"Mean time"')
