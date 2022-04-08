@@ -28,14 +28,13 @@ class AugmentationDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index: int):
         image = jpeg4py.JPEG(self.images[index]).decode()
-        image = np.divide(image, 255).astype(np.float32)
 
         if self.augmentation_api == 'albumentations':
             augmentation_time = time.time()
             image = self.transform(image=image)['image']
             augmentation_time = time.time() - augmentation_time
         elif self.augmentation_api == 'kornia':
-            image = torch.as_tensor(image).permute((2, 0, 1))
+            image = torch.as_tensor(image).permute((2, 0, 1)).to(torch.float32)
             augmentation_time = time.time()
             image = self.transform(image)
             augmentation_time = time.time() - augmentation_time
