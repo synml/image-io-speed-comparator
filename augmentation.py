@@ -32,7 +32,7 @@ if __name__ == '__main__':
         K.augmentation.ColorJitter(0.5, 0.5, 0.5, 0.125),
         K.augmentation.RandomGaussianBlur((3, 3), (0.1, 3.0), p=1.0),
         K.augmentation.RandomRotation([-10, 10], p=1.0),
-        K.augmentation.RandomHorizontalFlip(p=0.1),
+        K.augmentation.RandomHorizontalFlip(p=1.0),
         K.augmentation.RandomVerticalFlip(p=1.0),
         K.augmentation.Normalize(torch.tensor((0.5, 0.5, 0.5)), torch.tensor((0.5, 0.5, 0.5))),
     )
@@ -41,8 +41,8 @@ if __name__ == '__main__':
         T.ColorJitter(0.5, 0.5, 0.5, 0.125),
         T.GaussianBlur(3, (0.1, 3.0)),
         T.RandomRotation([-10, 10], T.InterpolationMode.BILINEAR),
-        T.RandomHorizontalFlip(p=1),
-        T.RandomVerticalFlip(p=1),
+        T.RandomHorizontalFlip(p=1.0),
+        T.RandomVerticalFlip(p=1.0),
         T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
 
