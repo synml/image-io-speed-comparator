@@ -23,6 +23,7 @@ class AugmentationDataset(torch.utils.data.Dataset):
         self.augmentation_api = augmentation_api
         self.transform = transform
         self.images = glob.glob(os.path.join(self.root, '*.jpg'))
+        self.images.sort(key=lambda x: int(os.path.splitext(os.path.basename(x))[0]))
 
     def __getitem__(self, index: int):
         image = jpeg4py.JPEG(self.images[index]).decode()
