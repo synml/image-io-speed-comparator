@@ -18,7 +18,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     albumentations_transform = A.Compose([
-        A.RandomCrop(512, 1024),
+        A.RandomCrop(960, 1920),
         A.ColorJitter(0.5, 0.5, 0.5, 0.125, p=1.0),
         A.GaussianBlur(3, (0.1, 3.0), p=1.0),
         A.Rotate((-10, 10)),
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         A.pytorch.ToTensorV2(),
     ])
     kornia_transform = nn.Sequential(
-        K.augmentation.RandomCrop((512, 1024)),
+        K.augmentation.RandomCrop((960, 1920)),
         K.augmentation.ColorJitter(0.5, 0.5, 0.5, 0.125),
         K.augmentation.RandomGaussianBlur((3, 3), (0.1, 3.0), p=1.0),
         K.augmentation.RandomRotation([-10, 10], p=1.0),
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         K.augmentation.Normalize(torch.tensor((0.5, 0.5, 0.5)), torch.tensor((0.5, 0.5, 0.5))),
     )
     torchvision_transform = T.Compose([
-        T.RandomCrop([512, 1024]),
+        T.RandomCrop([960, 1920]),
         T.ColorJitter(0.5, 0.5, 0.5, 0.125),
         T.GaussianBlur(3, (0.1, 3.0)),
         T.RandomRotation([-10, 10], T.InterpolationMode.BILINEAR),
@@ -102,6 +102,6 @@ if __name__ == '__main__':
     # Print mean times
     print('"Mean time"')
     print(f'albumentations_time: \t\t{mean_albumentations_time:.4f}')
-    print(f'albumentations_time: \t\t{mean_kornia_time:.4f}')
-    print(f'albumentations_time: \t\t{mean_torchvision_time:.4f}')
+    print(f'kornia_time: \t\t{mean_kornia_time:.4f}')
+    print(f'torchvision_time: \t\t{mean_torchvision_time:.4f}')
     print('--------------------------------------')
