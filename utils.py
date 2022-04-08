@@ -4,6 +4,7 @@ import time
 from typing import Callable
 
 import jpeg4py
+import numpy as np
 import torch.utils.data
 
 
@@ -26,6 +27,7 @@ class AugmentationDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index: int):
         image = jpeg4py.JPEG(self.images[index]).decode()
+        image = np.divide(image, 255)
 
         if self.augmentation_api == 'albumentations':
             augmentation_time = time.time()
