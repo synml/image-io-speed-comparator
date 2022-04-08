@@ -4,7 +4,7 @@
 ## 실험하는 방법
 쉘에서 아래의 명령을 실행합니다. repeat은 반복 실험 횟수를 지정합니다. 기본값은 5입니다.
 ```bash
-python main.py --repeat=<num_repeat>
+python main.py --repeat <num_repeat>
 ```
 
 ## (선택적) png 형식 이미지를 jpg로 변환
