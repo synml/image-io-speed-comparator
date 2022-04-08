@@ -12,6 +12,14 @@ import torchvision.transforms.functional as TF
 from PIL import Image
 
 
+"""
+로드한 결과는 OpenCV와 jpeg4py가 같고, PIL과 Torchvision.io가 같음.
+그러나 OpenCV, jpeg4py와 PIL, Torchvision.io는 서로 다름.
+(OpenCV == jpeg4py) != (PIL == Torchvision.io)
+
+픽셀 값에서 1 ~ 3정도 차이 발생
+"""
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--repeat', type=int, default=5, help='number of iterations')
 args = parser.parse_args()
