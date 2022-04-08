@@ -12,10 +12,9 @@ python read.py --repeat <num_repeat>
 ## 2. 이미지 증강(augmentation) 속도 비교
 쉘에서 아래의 명령을 실행합니다.
 
-repeat은 반복 실험 횟수를 지정하며, 기본값은 5입니다.<br>
-num_workers와 prefetch_factor는 DataLoader에서 사용하며, 기본값은 각각 0, 2입니다.
+repeat은 반복 실험 횟수를 지정하며, 기본값은 5입니다.
 ```bash
-python augmentation.py --repeat <num_repeat> --num_workers <num> --prefetch_factor <num>
+python augmentation.py --repeat <num_repeat> --num_workers <num>
 ```
 
 ## (선택적) png 형식 이미지를 jpg로 변환
