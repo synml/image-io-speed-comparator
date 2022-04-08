@@ -13,7 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_workers', type=int, default=0)
     parser.add_argument('--prefetch_factor', type=int, default=0)
     args = parser.parse_args()
-    
+
     # TODO: transform 추가
 
     albumentations_dataset = utils.AugmentationDataset('data', 'albumentations', albumentations_transform)
