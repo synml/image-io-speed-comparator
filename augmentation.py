@@ -1,6 +1,9 @@
 import argparse
 
 import albumentations as A
+import albumentations.pytorch
+import kornia as K
+import torch.nn as nn
 import torch.utils.data
 import torchvision.transforms as T
 
@@ -11,10 +14,37 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--repeat', type=int, default=5, help='number of iterations')
     parser.add_argument('--num_workers', type=int, default=0)
-    parser.add_argument('--prefetch_factor', type=int, default=0)
+    parser.add_argument('--prefetch_factor', type=int, default=2)
     args = parser.parse_args()
 
-    # TODO: transform 추가
+    albumentations_transform = A.Compose([
+        A.RandomCrop(512, 1024),
+        A.ColorJitter(0.5, 0.5, 0.5, 0.125, p=1.0),
+        A.GaussianBlur(3, (0.1, 3.0), p=1.0),
+        A.Rotate((-10, 10)),
+        A.HorizontalFlip(p=1.0),
+        A.VerticalFlip(p=1.0),
+        A.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        A.pytorch.ToTensorV2(),
+    ])
+    kornia_transform = nn.Sequential(
+        K.augmentation.RandomCrop((512, 1024)),
+        K.augmentation.ColorJitter(0.5, 0.5, 0.5, 0.125),
+        K.augmentation.RandomGaussianBlur((3, 3), (0.1, 3.0), p=1.0),
+        K.augmentation.RandomRotation([-10, 10], p=1.0),
+        K.augmentation.RandomHorizontalFlip(p=0.1),
+        K.augmentation.RandomVerticalFlip(p=1.0),
+        K.augmentation.Normalize(torch.tensor((0.5, 0.5, 0.5)), torch.tensor((0.5, 0.5, 0.5))),
+    )
+    torchvision_transform = T.Compose([
+        T.RandomCrop([512, 1024]),
+        T.ColorJitter(0.5, 0.5, 0.5, 0.125),
+        T.GaussianBlur(3, (0.1, 3.0)),
+        T.RandomRotation([-10, 10], T.InterpolationMode.BILINEAR),
+        T.RandomHorizontalFlip(p=1),
+        T.RandomVerticalFlip(p=1),
+        T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    ])
 
     albumentations_dataset = utils.AugmentationDataset('data', 'albumentations', albumentations_transform)
     albumentations_dataloader = torch.utils.data.DataLoader(albumentations_dataset,
@@ -35,21 +65,24 @@ if __name__ == '__main__':
 
     for i in range(args.repeat):
         # Albumentations
-        albumentations_time = 0
+        albumentations_time = torch.zeros(1)
         for image, augmentation_time in albumentations_dataloader:
             albumentations_time += augmentation_time
 
         # Kornia
-        kornia_time = 0
+        kornia_time = torch.zeros(1)
         for image, augmentation_time in albumentations_dataloader:
             kornia_time += augmentation_time
 
         # Torchvision
-        torchvision_time = 0
+        torchvision_time = torch.zeros(1)
         for image, augmentation_time in albumentations_dataloader:
             torchvision_time += augmentation_time
 
         # Save times
+        albumentations_time = albumentations_time.item()
+        kornia_time = kornia_time.item()
+        torchvision_time = torchvision_time.item()
         total_albumentations_time.append(albumentations_time)
         total_kornia_time.append(kornia_time)
         total_torchvision_time.append(torchvision_time)
