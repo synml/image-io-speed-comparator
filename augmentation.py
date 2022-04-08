@@ -51,11 +51,11 @@ if __name__ == '__main__':
                                                             num_workers=args.num_workers,
                                                             prefetch_factor=args.prefetch_factor)
     kornia_dataset = utils.AugmentationDataset('data', 'kornia', kornia_transform)
-    kornia_dataloader = torch.utils.data.DataLoader(albumentations_dataset,
+    kornia_dataloader = torch.utils.data.DataLoader(kornia_dataset,
                                                     num_workers=args.num_workers,
                                                     prefetch_factor=args.prefetch_factor)
     torchvision_dataset = utils.AugmentationDataset('data', 'torchvision', torchvision_transform)
-    torchvision_dataloader = torch.utils.data.DataLoader(albumentations_dataset,
+    torchvision_dataloader = torch.utils.data.DataLoader(torchvision_dataset,
                                                          num_workers=args.num_workers,
                                                          prefetch_factor=args.prefetch_factor)
 
@@ -66,18 +66,18 @@ if __name__ == '__main__':
     for i in range(args.repeat):
         # Albumentations
         albumentations_time = torch.zeros(1)
-        for image, augmentation_time in albumentations_dataloader:
-            albumentations_time += augmentation_time
+        for image, time in albumentations_dataloader:
+            albumentations_time += time
 
         # Kornia
         kornia_time = torch.zeros(1)
-        for image, augmentation_time in albumentations_dataloader:
-            kornia_time += augmentation_time
+        for image, time in kornia_dataloader:
+            kornia_time += time
 
         # Torchvision
         torchvision_time = torch.zeros(1)
-        for image, augmentation_time in albumentations_dataloader:
-            torchvision_time += augmentation_time
+        for image, time in torchvision_dataloader:
+            torchvision_time += time
 
         # Save times
         albumentations_time = albumentations_time.item()
