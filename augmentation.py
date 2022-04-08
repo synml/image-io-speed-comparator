@@ -17,32 +17,33 @@ if __name__ == '__main__':
     parser.add_argument('--prefetch_factor', type=int, default=2)
     args = parser.parse_args()
 
+    p = 1.0
     albumentations_transform = A.Compose([
-        A.RandomCrop(960, 1920),
-        A.ColorJitter(0.5, 0.5, 0.5, 0.125, p=1.0),
-        A.GaussianBlur(3, (0.1, 3.0), p=1.0),
-        A.Rotate((-10, 10)),
-        A.HorizontalFlip(p=1.0),
-        A.VerticalFlip(p=1.0),
-        A.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        A.RandomCrop(960, 1920, p=p),
+        A.ColorJitter(0.2, 0.2, 0.2, 0.125, p=p),
+        A.GaussianBlur(3, (0.1, 3.0), p=p),
+        A.Rotate((-10, 10), p=p),
+        A.HorizontalFlip(p=p),
+        A.VerticalFlip(p=p),
+        A.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5), p=p),
         A.pytorch.ToTensorV2(),
     ])
     kornia_transform = nn.Sequential(
-        K.augmentation.RandomCrop((960, 1920)),
-        K.augmentation.ColorJitter(0.5, 0.5, 0.5, 0.125),
-        K.augmentation.RandomGaussianBlur((3, 3), (0.1, 3.0), p=1.0),
-        K.augmentation.RandomRotation([-10, 10], p=1.0),
-        K.augmentation.RandomHorizontalFlip(p=1.0),
-        K.augmentation.RandomVerticalFlip(p=1.0),
-        K.augmentation.Normalize(torch.tensor((0.5, 0.5, 0.5)), torch.tensor((0.5, 0.5, 0.5))),
+        K.augmentation.RandomCrop((960, 1920), p=p),
+        K.augmentation.ColorJitter(0.2, 0.2, 0.2, 0.125, p=p),
+        K.augmentation.RandomGaussianBlur((3, 3), (0.1, 3.0), p=p),
+        K.augmentation.RandomRotation([-10, 10], p=p),
+        K.augmentation.RandomHorizontalFlip(p=p),
+        K.augmentation.RandomVerticalFlip(p=p),
+        K.augmentation.Normalize(torch.tensor((0.5, 0.5, 0.5)), torch.tensor((0.5, 0.5, 0.5)), p=p),
     )
     torchvision_transform = T.Compose([
         T.RandomCrop([960, 1920]),
-        T.ColorJitter(0.5, 0.5, 0.5, 0.125),
+        T.ColorJitter(0.2, 0.2, 0.2, 0.125),
         T.GaussianBlur(3, (0.1, 3.0)),
         T.RandomRotation([-10, 10], T.InterpolationMode.BILINEAR),
-        T.RandomHorizontalFlip(p=1.0),
-        T.RandomVerticalFlip(p=1.0),
+        T.RandomHorizontalFlip(p=p),
+        T.RandomVerticalFlip(p=p),
         T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
 
