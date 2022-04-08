@@ -29,7 +29,7 @@ class AugmentationDataset(torch.utils.data.Dataset):
 
         if self.augmentation_api == 'albumentations':
             augmentation_time = time.time()
-            image = self.transform(image)['image']
+            image = self.transform(image=image)['image']
             augmentation_time = time.time() - augmentation_time
         elif self.augmentation_api == 'kornia':
             augmentation_time = time.time()
