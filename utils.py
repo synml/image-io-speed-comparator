@@ -39,7 +39,7 @@ class AugmentationDataset(torch.utils.data.Dataset):
             image = self.transform(image)
             augmentation_time = time.time() - augmentation_time
         elif self.augmentation_api == 'torchvision':
-            image = torch.as_tensor(image).permute((2, 0, 1))
+            image = torch.as_tensor(image).permute((2, 0, 1)).to(torch.float32)
             augmentation_time = time.time()
             image = self.transform(image)
             augmentation_time = time.time() - augmentation_time
