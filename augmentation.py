@@ -89,9 +89,9 @@ if __name__ == '__main__':
 
         # Print times of current iter
         print(f'"{i + 1} iter"')
-        print(f'albumentations_time: \t\t{albumentations_time:.4f}')
+        print(f'albumentations_time: \t{albumentations_time:.4f}')
         print(f'kornia_time: \t\t{kornia_time:.4f}')
-        print(f'torchvision_time: \t\t{torchvision_time:.4f}')
+        print(f'torchvision_time: \t{torchvision_time:.4f}')
         print('--------------------------------------')
 
     # Calculate mean times
@@ -101,7 +101,7 @@ if __name__ == '__main__':
 
     # Print mean times
     print('"Mean time"')
-    print(f'albumentations_time: \t\t{mean_albumentations_time:.4f}')
+    print(f'albumentations_time: \t{mean_albumentations_time:.4f}')
     print(f'kornia_time: \t\t{mean_kornia_time:.4f}')
-    print(f'torchvision_time: \t\t{mean_torchvision_time:.4f}')
+    print(f'torchvision_time: \t{mean_torchvision_time:.4f}')
     print('--------------------------------------')
