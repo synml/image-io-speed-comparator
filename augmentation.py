@@ -14,7 +14,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--repeat', type=int, default=5, help='number of iterations')
     parser.add_argument('--num_workers', type=int, default=0)
-    parser.add_argument('--prefetch_factor', type=int, default=2)
     args = parser.parse_args()
 
     p = 1.0
@@ -49,16 +48,13 @@ if __name__ == '__main__':
 
     albumentations_dataset = utils.AugmentationDataset('data', 'albumentations', albumentations_transform)
     albumentations_dataloader = torch.utils.data.DataLoader(albumentations_dataset,
-                                                            num_workers=args.num_workers,
-                                                            prefetch_factor=args.prefetch_factor)
+                                                            num_workers=args.num_workers)
     kornia_dataset = utils.AugmentationDataset('data', 'kornia', kornia_transform)
     kornia_dataloader = torch.utils.data.DataLoader(kornia_dataset,
-                                                    num_workers=args.num_workers,
-                                                    prefetch_factor=args.prefetch_factor)
+                                                    num_workers=args.num_workers)
     torchvision_dataset = utils.AugmentationDataset('data', 'torchvision', torchvision_transform)
     torchvision_dataloader = torch.utils.data.DataLoader(torchvision_dataset,
-                                                         num_workers=args.num_workers,
-                                                         prefetch_factor=args.prefetch_factor)
+                                                         num_workers=args.num_workers)
 
     total_albumentations_time = []
     total_kornia_time = []
