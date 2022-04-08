@@ -4,6 +4,7 @@ import time
 from typing import Callable
 
 import jpeg4py
+import matplotlib.pyplot as plt
 import numpy as np
 import torch.utils.data
 
@@ -16,6 +17,14 @@ def calculate_mean_time(time_list: list[float]):
     # Calculate mean
     mean_time = sum(time_list) / len(time_list)
     return mean_time
+
+
+def show_transform_result(image: torch.Tensor):
+    if image.ndim == 4:
+        plt.imshow(image.squeeze(0).permute((1, 2, 0)))
+    elif image.ndim == 5:
+        plt.imshow(image.squeeze(0).squeeze(0).permute((1, 2, 0)))
+    plt.show()
 
 
 class AugmentationDataset(torch.utils.data.Dataset):
