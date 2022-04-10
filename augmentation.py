@@ -65,19 +65,19 @@ if __name__ == '__main__':
         # Albumentations
         albumentations_time = torch.zeros(1)
         for image, time in albumentations_dataloader:
-            albumentations_time += time
+            albumentations_time += time.sum()
             #utils.show_transform_result(image)
 
         # Kornia
         kornia_time = torch.zeros(1)
         for image, time in kornia_dataloader:
-            kornia_time += time
+            kornia_time += time.sum()
             #utils.show_transform_result(image)
 
         # Torchvision
         torchvision_time = torch.zeros(1)
         for image, time in torchvision_dataloader:
-            torchvision_time += time
+            torchvision_time += time.sum()
             #utils.show_transform_result(image)
 
         # Save times
