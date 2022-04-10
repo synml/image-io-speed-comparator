@@ -20,11 +20,12 @@ def calculate_mean_time(time_list: list[float]):
 
 
 def show_transform_result(image: torch.Tensor):
-    if image.ndim == 4:
-        plt.imshow(image.squeeze(0).permute((1, 2, 0)))
-    elif image.ndim == 5:
-        plt.imshow(image.squeeze(0).squeeze(0).permute((1, 2, 0)))
-    plt.show()
+    for img in image:
+        if img.ndim == 3:
+            plt.imshow(img.permute((1, 2, 0)))
+        elif img.ndim == 4:
+            plt.imshow(img.squeeze(0).permute((1, 2, 0)))
+        plt.show()
 
 
 class AugmentationDataset(torch.utils.data.Dataset):
