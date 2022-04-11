@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     p = 1.0
     albumentations_transform = A.Compose([
-        A.RandomCrop(960, 1920, p=p),
+        A.RandomCrop(512, 1024, p=p),
         A.ColorJitter(0.2, 0.2, 0.2, 0.125, p=p),
         A.GaussianBlur(3, (0.1, 3.0), p=p),
         A.Rotate((-10, 10), p=p),
@@ -31,7 +31,7 @@ if __name__ == '__main__':
         A.pytorch.ToTensorV2(),
     ])
     kornia_transform = nn.Sequential(
-        K.augmentation.RandomCrop((960, 1920), p=p),
+        K.augmentation.RandomCrop((512, 1024), p=p),
         K.augmentation.ColorJitter(0.2, 0.2, 0.2, 0.125, p=p),
         K.augmentation.RandomGaussianBlur((3, 3), (0.1, 3.0), p=p),
         K.augmentation.RandomRotation([-10, 10], p=p),
@@ -40,7 +40,7 @@ if __name__ == '__main__':
         K.augmentation.Normalize(torch.tensor((0.5, 0.5, 0.5)), torch.tensor((0.5, 0.5, 0.5)), p=p),
     )
     torchvision_transform = T.Compose([
-        T.RandomCrop([960, 1920]),
+        T.RandomCrop([512, 1024]),
         T.ColorJitter(0.2, 0.2, 0.2, 0.125),
         T.GaussianBlur(3, (0.1, 3.0)),
         T.RandomRotation([-10, 10], T.InterpolationMode.BILINEAR),
