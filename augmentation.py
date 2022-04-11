@@ -49,7 +49,7 @@ if __name__ == '__main__':
         T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
 
-    root = os.path.join('data', 'mini')
+    root = os.path.join('data', 'full')
     albumentations_dataset = utils.AugmentationDataset(root, 'albumentations', albumentations_transform)
     albumentations_dataloader = torch.utils.data.DataLoader(albumentations_dataset, args.batch_size,
                                                             num_workers=args.num_workers)
