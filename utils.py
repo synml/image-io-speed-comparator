@@ -29,7 +29,7 @@ def show_transform_result(image: torch.Tensor):
 
 
 class AugmentationDataset(torch.utils.data.Dataset):
-    def __init__(self, root: str, augmentation_api: str, transform: Callable):
+    def __init__(self, root: str, augmentation_api: str = None, transform: Callable = None):
         self.root = root
         self.augmentation_api = augmentation_api
         self.transform = transform
@@ -41,6 +41,9 @@ class AugmentationDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index: int):
         image = jpeg4py.JPEG(self.images[index]).decode()
+
+        if self.transform is None:
+            return image
 
         if self.augmentation_api == 'albumentations':
             augmentation_time = time.time()

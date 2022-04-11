@@ -1,5 +1,6 @@
 import argparse
 import os
+import time
 
 import albumentations as A
 import albumentations.pytorch
@@ -48,14 +49,14 @@ if __name__ == '__main__':
         T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
 
-    root = os.path.join('data', 'full')
+    root = os.path.join('data', 'mini')
     albumentations_dataset = utils.AugmentationDataset(root, 'albumentations', albumentations_transform)
     albumentations_dataloader = torch.utils.data.DataLoader(albumentations_dataset, args.batch_size,
                                                             num_workers=args.num_workers)
-    kornia_dataset = utils.AugmentationDataset(root, 'kornia', kornia_transform)
+    kornia_dataset = utils.AugmentationDataset(root)
     kornia_dataloader = torch.utils.data.DataLoader(kornia_dataset, args.batch_size,
                                                     num_workers=args.num_workers)
-    torchvision_dataset = utils.AugmentationDataset(root, 'torchvision', torchvision_transform)
+    torchvision_dataset = utils.AugmentationDataset(root)
     torchvision_dataloader = torch.utils.data.DataLoader(torchvision_dataset, args.batch_size,
                                                          num_workers=args.num_workers)
 
@@ -66,26 +67,30 @@ if __name__ == '__main__':
     for i in range(args.repeat):
         # Albumentations
         albumentations_time = torch.zeros(1)
-        for image, time in albumentations_dataloader:
-            albumentations_time += time.sum()
+        for image, augmentation_time in albumentations_dataloader:
+            albumentations_time += augmentation_time.sum()
             #utils.show_transform_result(image)
 
         # Kornia
-        kornia_time = torch.zeros(1)
-        for image, time in kornia_dataloader:
-            kornia_time += time.sum()
+        kornia_time = 0
+        for image in kornia_dataloader:
+            image = image.permute((0, 3, 1, 2)).to(torch.float32).div(255)
+            augmentation_time = time.time()
+            image = kornia_transform(image)
+            kornia_time += (time.time() - augmentation_time)
             #utils.show_transform_result(image)
 
         # Torchvision
-        torchvision_time = torch.zeros(1)
-        for image, time in torchvision_dataloader:
-            torchvision_time += time.sum()
+        torchvision_time = 0
+        for image in torchvision_dataloader:
+            image = image.permute((0, 3, 1, 2)).to(torch.float32).div(255)
+            augmentation_time = time.time()
+            image = torchvision_transform(image)
+            torchvision_time += (time.time() - augmentation_time)
             #utils.show_transform_result(image)
 
         # Save times
         albumentations_time = albumentations_time.item()
-        kornia_time = kornia_time.item()
-        torchvision_time = torchvision_time.item()
         total_albumentations_time.append(albumentations_time)
         total_kornia_time.append(kornia_time)
         total_torchvision_time.append(torchvision_time)
