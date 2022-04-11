@@ -26,7 +26,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--repeat', type=int, default=5, help='number of iterations')
 args = parser.parse_args()
 
-image_paths = glob.glob(os.path.join('data', '*.jpg'))
+image_paths = glob.glob(os.path.join('data', 'mini', '*.jpg'))
 image_paths.sort(key=lambda x: int(os.path.splitext(os.path.basename(x))[0]))
 
 total_cv_time = []

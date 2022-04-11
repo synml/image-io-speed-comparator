@@ -1,4 +1,5 @@
 import argparse
+import os
 
 import albumentations as A
 import albumentations.pytorch
@@ -47,13 +48,14 @@ if __name__ == '__main__':
         T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
 
-    albumentations_dataset = utils.AugmentationDataset('data', 'albumentations', albumentations_transform)
+    root = os.path.join('data', 'full')
+    albumentations_dataset = utils.AugmentationDataset(root, 'albumentations', albumentations_transform)
     albumentations_dataloader = torch.utils.data.DataLoader(albumentations_dataset, args.batch_size,
                                                             num_workers=args.num_workers)
-    kornia_dataset = utils.AugmentationDataset('data', 'kornia', kornia_transform)
+    kornia_dataset = utils.AugmentationDataset(root, 'kornia', kornia_transform)
     kornia_dataloader = torch.utils.data.DataLoader(kornia_dataset, args.batch_size,
                                                     num_workers=args.num_workers)
-    torchvision_dataset = utils.AugmentationDataset('data', 'torchvision', torchvision_transform)
+    torchvision_dataset = utils.AugmentationDataset(root, 'torchvision', torchvision_transform)
     torchvision_dataloader = torch.utils.data.DataLoader(torchvision_dataset, args.batch_size,
                                                          num_workers=args.num_workers)
 
