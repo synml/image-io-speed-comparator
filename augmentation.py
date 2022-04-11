@@ -74,7 +74,7 @@ if __name__ == '__main__':
         # Kornia
         kornia_time = 0
         for image in kornia_dataloader:
-            image = image.permute((0, 3, 1, 2)).to(torch.float32).div(255)
+            image = image.permute((0, 3, 1, 2)).to(torch.float32).div(255).cuda()
             augmentation_time = time.time()
             image = kornia_transform(image)
             kornia_time += (time.time() - augmentation_time)
@@ -83,7 +83,7 @@ if __name__ == '__main__':
         # Torchvision
         torchvision_time = 0
         for image in torchvision_dataloader:
-            image = image.permute((0, 3, 1, 2)).to(torch.float32).div(255)
+            image = image.permute((0, 3, 1, 2)).to(torch.float32).div(255).cuda()
             augmentation_time = time.time()
             image = torchvision_transform(image)
             torchvision_time += (time.time() - augmentation_time)
